@@ -36,4 +36,5 @@ Session.vim
 # Auto-generated tag files
 tags
 
-
+# Ignore Spring files.
+/spring/*.pid
