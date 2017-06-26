@@ -15,4 +15,8 @@ class User
     "#{full_name} <#{@email}>"
   end
 
+  def alphabetical_mame
+    "#{@last_name}, #{@first_name}"
+  end
+
 end
