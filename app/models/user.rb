@@ -17,7 +17,8 @@ class User < ApplicationRecord
   MIN_PASSWORD_LENGTH = 6
   validates :password,
             presence: true,
-            length: { minimum: MIN_PASSWORD_LENGTH }
+            length: { minimum: MIN_PASSWORD_LENGTH },
+            allow_nil: true
 
   has_secure_password
 
