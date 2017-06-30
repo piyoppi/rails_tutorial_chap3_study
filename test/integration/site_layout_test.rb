@@ -27,10 +27,6 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", user_path(@user)
     assert_select "a[href=?]", edit_user_path(@user)
     assert_select "a[href=?]", logout_path
-    #ユーザーリストが正しく表示されているかどうかを確認
-    @users.each do |user|
-      assert_select "a[href=?]", user_path(user)
-    end 
   end
 
 end
