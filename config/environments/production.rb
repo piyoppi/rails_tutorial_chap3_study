@@ -70,7 +70,7 @@ Rails.application.configure do
     :authentication         => :plain,
     :user_name              => ENV['GT_USERNAME'],
     :password               => ENV['GT_PASSWORD'],
-    :domain                 => 'heroku.com',
+    :domain                 => ENV['GT_DOMAIN'],
     :enable_starttls_auto   => true
   }
 
