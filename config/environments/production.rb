@@ -71,7 +71,7 @@ Rails.application.configure do
     :user_name              => ENV['GT_USERNAME'],
     :password               => ENV['GT_PASSWORD'],
     :domain                 => ENV['GT_DOMAIN'],
-    :enable_starttls_auto   => true
+    :enable_starttls_auto   => false
   }
 
 
