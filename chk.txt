@@ -1,0 +1,101 @@
+2017-07-03T08:26:29.168394+00:00 app[web.1]:   <body>
+2017-07-03T08:26:29.168394+00:00 app[web.1]:     <h1>Sample App</h1>
+2017-07-03T08:26:29.168394+00:00 app[web.1]: 
+2017-07-03T08:26:29.168395+00:00 app[web.1]: 
+2017-07-03T08:26:29.168395+00:00 app[web.1]: <p>Hi hogehoge,</p>
+2017-07-03T08:26:29.168395+00:00 app[web.1]: 
+2017-07-03T08:26:29.168396+00:00 app[web.1]:     Welcome to the Sample App! Click on the link below to activate your account:
+2017-07-03T08:26:29.168396+00:00 app[web.1]: <p>
+2017-07-03T08:26:29.168396+00:00 app[web.1]: </p>
+2017-07-03T08:26:29.168397+00:00 app[web.1]: 
+2017-07-03T08:26:29.168397+00:00 app[web.1]: <a href="https://thawing-hollows-48327.herokuapp.com/account_activations/3_iBWryoG6cNhVtsRsve6g/edit?email=3podvator%40gmail.com">Activate</a>
+2017-07-03T08:26:29.168398+00:00 app[web.1]: 
+2017-07-03T08:26:29.168398+00:00 app[web.1]: 
+2017-07-03T08:26:29.168398+00:00 app[web.1]:   </body>
+2017-07-03T08:26:29.168399+00:00 app[web.1]: 
+2017-07-03T08:26:29.168399+00:00 app[web.1]: </html>
+2017-07-03T08:26:29.168400+00:00 app[web.1]: 
+2017-07-03T08:26:29.168716+00:00 app[web.1]: I, [2017-07-03T08:26:29.168652 #10]  INFO -- : [32fedead-35dd-495e-83df-de3f2f54abf4] Completed 500 Internal Server Error in 61142ms (ActiveRecord: 61.0ms)
+2017-07-03T08:26:29.168399+00:00 app[web.1]: ----==_mimepart_5959ff78b746e_a20bb36c20265--
+2017-07-03T08:26:29.169654+00:00 app[web.1]: F, [2017-07-03T08:26:29.169591 #10] FATAL -- : [32fedead-35dd-495e-83df-de3f2f54abf4]   
+2017-07-03T08:26:29.169730+00:00 app[web.1]: F, [2017-07-03T08:26:29.169656 #10] FATAL -- : [32fedead-35dd-495e-83df-de3f2f54abf4] Net::ReadTimeout (Net::ReadTimeout):
+2017-07-03T08:26:29.169788+00:00 app[web.1]: F, [2017-07-03T08:26:29.169730 #10] FATAL -- : [32fedead-35dd-495e-83df-de3f2f54abf4]   
+2017-07-03T08:26:29.169860+00:00 app[web.1]: F, [2017-07-03T08:26:29.169809 #10] FATAL -- : [32fedead-35dd-495e-83df-de3f2f54abf4] app/models/user.rb:47:in `send_activation_email'
+2017-07-03T08:26:29.169862+00:00 app[web.1]: [32fedead-35dd-495e-83df-de3f2f54abf4] app/controllers/users_controller.rb:22:in `create'
+2017-07-03T08:27:24.010748+00:00 app[web.1]: I, [2017-07-03T08:27:24.010640 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] Started POST "/signup" for 210.172.128.230 at 2017-07-03 08:27:24 +0000
+2017-07-03T08:27:24.011680+00:00 app[web.1]: I, [2017-07-03T08:27:24.011620 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] Processing by UsersController#create as HTML
+2017-07-03T08:27:24.011765+00:00 app[web.1]: I, [2017-07-03T08:27:24.011708 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   Parameters: {"utf8"=>"✓", "authenticity_token"=>"G/Z4bisdFRZg8qNR8FZD6t/utI5mDAHvulB4hR/s1QovBdJEyGkAN2FjDe4eHBQ2uLZJm/8aa55iexorJBI23w==", "user"=>{"name"=>"hogehoge", "email"=>"3podvator+hoge@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Create my account"}
+2017-07-03T08:27:24.085242+00:00 app[web.1]: D, [2017-07-03T08:27:24.085136 #10] DEBUG -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+2017-07-03T08:27:24.087000+00:00 app[web.1]: D, [2017-07-03T08:27:24.086936 #10] DEBUG -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   [1m[36mUser Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER($1) LIMIT $2[0m  [["email", "3podvator+hoge@gmail.com"], ["LIMIT", 1]]
+2017-07-03T08:27:24.160937+00:00 app[web.1]: D, [2017-07-03T08:27:24.160818 #10] DEBUG -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   [1m[35mSQL (1.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "created_at", "updated_at", "password_digest", "activation_digest") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "hogehoge"], ["email", "3podvator+hoge@gmail.com"], ["created_at", "2017-07-03 08:27:24.087210"], ["updated_at", "2017-07-03 08:27:24.087210"], ["password_digest", "$2a$10$hLC8J8Zw2tbm4nc5J9nT/eaaNo/e2lDw596bDP/dZQRZZCcmLJ1wu"], ["activation_digest", "$2a$10$hP7hGpq/MRrUQarcjeyWVO94WMckGYCLjWisGCIqe1rYFVa7ZJ9MO"]]
+2017-07-03T08:27:24.163259+00:00 app[web.1]: D, [2017-07-03T08:27:24.163147 #10] DEBUG -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+2017-07-03T08:27:24.165418+00:00 app[web.1]: I, [2017-07-03T08:27:24.165345 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   Rendered user_mailer/account_activation.html.erb within layouts/mailer (0.5ms)
+2017-07-03T08:27:24.164784+00:00 app[web.1]: I, [2017-07-03T08:27:24.164698 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   Rendering user_mailer/account_activation.html.erb within layouts/mailer
+2017-07-03T08:27:24.165827+00:00 app[web.1]: I, [2017-07-03T08:27:24.165754 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   Rendering user_mailer/account_activation.text.erb within layouts/mailer
+2017-07-03T08:27:24.166224+00:00 app[web.1]: I, [2017-07-03T08:27:24.166154 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   Rendered user_mailer/account_activation.text.erb within layouts/mailer (0.2ms)
+2017-07-03T08:27:24.170503+00:00 app[web.1]: D, [2017-07-03T08:27:24.170424 #10] DEBUG -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] UserMailer#account_activation: processed outbound mail in 6.7ms
+2017-07-03T08:27:54.011225+00:00 heroku[router]: at=error code=H12 desc="Request timeout" method=POST path="/signup" host=thawing-hollows-48327.herokuapp.com request_id=a360de4f-8102-40aa-a9f5-7f186ce4d7b7 fwd="210.172.128.230" dyno=web.1 connect=1ms service=30002ms status=503 bytes=0 protocol=https
+2017-07-03T08:27:55.610546+00:00 heroku[router]: at=info method=GET path="/favicon.ico" host=thawing-hollows-48327.herokuapp.com request_id=0a1bd795-4fe3-4cd3-b944-e15ce48b8e14 fwd="210.172.128.230" dyno=web.1 connect=1ms service=2ms status=304 bytes=112 protocol=https
+2017-07-03T08:28:24.588676+00:00 app[web.1]: I, [2017-07-03T08:28:24.588566 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] Sent mail to 3podvator+hoge@gmail.com (60418.0ms)
+2017-07-03T08:28:24.588744+00:00 app[web.1]: D, [2017-07-03T08:28:24.588671 #10] DEBUG -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] Date: Mon, 03 Jul 2017 08:27:24 +0000
+2017-07-03T08:28:24.588746+00:00 app[web.1]: From: noreply@example.com
+2017-07-03T08:28:24.588746+00:00 app[web.1]: To: 3podvator+hoge@gmail.com
+2017-07-03T08:28:24.588747+00:00 app[web.1]: Message-ID: <5959ffec2a256_a20bb65020584@c2ebd930-ee21-44cd-a0e9-bc68946c52af.mail>
+2017-07-03T08:28:24.588748+00:00 app[web.1]: Subject: Account activation
+2017-07-03T08:28:24.588748+00:00 app[web.1]: Mime-Version: 1.0
+2017-07-03T08:28:24.588749+00:00 app[web.1]: Content-Type: multipart/alternative;
+2017-07-03T08:28:24.588750+00:00 app[web.1]:  boundary="--==_mimepart_5959ffec28c7c_a20bb650204c8";
+2017-07-03T08:28:24.588751+00:00 app[web.1]:  charset=UTF-8
+2017-07-03T08:28:24.588752+00:00 app[web.1]: Content-Transfer-Encoding: 7bit
+2017-07-03T08:28:24.588752+00:00 app[web.1]: 
+2017-07-03T08:28:24.588753+00:00 app[web.1]: 
+2017-07-03T08:28:24.588753+00:00 app[web.1]: ----==_mimepart_5959ffec28c7c_a20bb650204c8
+2017-07-03T08:28:24.588754+00:00 app[web.1]: Content-Type: text/plain;
+2017-07-03T08:28:24.588754+00:00 app[web.1]:  charset=UTF-8
+2017-07-03T08:28:24.588754+00:00 app[web.1]: Content-Transfer-Encoding: 7bit
+2017-07-03T08:28:24.588755+00:00 app[web.1]: 
+2017-07-03T08:28:24.588755+00:00 app[web.1]: Hi hogehoge,
+2017-07-03T08:28:24.588756+00:00 app[web.1]: 
+2017-07-03T08:28:24.588757+00:00 app[web.1]: Welcome to the Sample App! Click on the link below to activate your account:
+2017-07-03T08:28:24.588757+00:00 app[web.1]: 
+2017-07-03T08:28:24.588758+00:00 app[web.1]: https://thawing-hollows-48327.herokuapp.com/account_activations/0Pqj3ylzBSKLST-8RbXH-g/edit?email=3podvator%2Bhoge%40gmail.com
+2017-07-03T08:28:24.588758+00:00 app[web.1]: 
+2017-07-03T08:28:24.588758+00:00 app[web.1]: 
+2017-07-03T08:28:24.588759+00:00 app[web.1]: ----==_mimepart_5959ffec28c7c_a20bb650204c8
+2017-07-03T08:28:24.588759+00:00 app[web.1]: Content-Type: text/html;
+2017-07-03T08:28:24.588760+00:00 app[web.1]:  charset=UTF-8
+2017-07-03T08:28:24.588760+00:00 app[web.1]: Content-Transfer-Encoding: 7bit
+2017-07-03T08:28:24.588760+00:00 app[web.1]: 
+2017-07-03T08:28:24.588761+00:00 app[web.1]: <!DOCTYPE html>
+2017-07-03T08:28:24.588761+00:00 app[web.1]: <html>
+2017-07-03T08:28:24.588762+00:00 app[web.1]:   <head>
+2017-07-03T08:28:24.588762+00:00 app[web.1]:     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+2017-07-03T08:28:24.588762+00:00 app[web.1]:     <style>
+2017-07-03T08:28:24.588763+00:00 app[web.1]:       /* Email styles need to be inline */
+2017-07-03T08:28:24.588763+00:00 app[web.1]:     </style>
+2017-07-03T08:28:24.588764+00:00 app[web.1]: 
+2017-07-03T08:28:24.588764+00:00 app[web.1]:   </head>
+2017-07-03T08:28:24.588764+00:00 app[web.1]:   <body>
+2017-07-03T08:28:24.588765+00:00 app[web.1]:     <h1>Sample App</h1>
+2017-07-03T08:28:24.588765+00:00 app[web.1]: 
+2017-07-03T08:28:24.588765+00:00 app[web.1]: 
+2017-07-03T08:28:24.588766+00:00 app[web.1]: <p>Hi hogehoge,</p>
+2017-07-03T08:28:24.588766+00:00 app[web.1]: 
+2017-07-03T08:28:24.588767+00:00 app[web.1]: <p>
+2017-07-03T08:28:24.588767+00:00 app[web.1]:     Welcome to the Sample App! Click on the link below to activate your account:
+2017-07-03T08:28:24.588767+00:00 app[web.1]: </p>
+2017-07-03T08:28:24.588768+00:00 app[web.1]: 
+2017-07-03T08:28:24.588769+00:00 app[web.1]: <a href="https://thawing-hollows-48327.herokuapp.com/account_activations/0Pqj3ylzBSKLST-8RbXH-g/edit?email=3podvator%2Bhoge%40gmail.com">Activate</a>
+2017-07-03T08:28:24.588769+00:00 app[web.1]: 
+2017-07-03T08:28:24.588769+00:00 app[web.1]: 
+2017-07-03T08:28:24.588770+00:00 app[web.1]:   </body>
+2017-07-03T08:28:24.588770+00:00 app[web.1]: </html>
+2017-07-03T08:28:24.588771+00:00 app[web.1]: 
+2017-07-03T08:28:24.588771+00:00 app[web.1]: ----==_mimepart_5959ffec28c7c_a20bb650204c8--
+2017-07-03T08:28:24.588771+00:00 app[web.1]: 
+2017-07-03T08:28:24.589002+00:00 app[web.1]: I, [2017-07-03T08:28:24.588950 #10]  INFO -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] Completed 500 Internal Server Error in 60577ms (ActiveRecord: 4.2ms)
+2017-07-03T08:28:24.589526+00:00 app[web.1]: F, [2017-07-03T08:28:24.589474 #10] FATAL -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   
+2017-07-03T08:28:24.589569+00:00 app[web.1]: F, [2017-07-03T08:28:24.589526 #10] FATAL -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] Net::ReadTimeout (Net::ReadTimeout):
+2017-07-03T08:28:24.589607+00:00 app[web.1]: F, [2017-07-03T08:28:24.589569 #10] FATAL -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7]   
+2017-07-03T08:28:24.589651+00:00 app[web.1]: F, [2017-07-03T08:28:24.589614 #10] FATAL -- : [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] app/models/user.rb:47:in `send_activation_email'
+2017-07-03T08:28:24.589652+00:00 app[web.1]: [a360de4f-8102-40aa-a9f5-7f186ce4d7b7] app/controllers/users_controller.rb:22:in `create'
