@@ -26,4 +26,9 @@ class ActionDispatch::IntegrationTest
                                           password: password,
                                           remember_me: remember_me } }
   end
+
+  def submit_reset_password(user)
+    post password_resets_path, params: {password_reset: {email: user.email}}
+    assigns(:user)
+  end
 end

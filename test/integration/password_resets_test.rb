@@ -7,7 +7,8 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     @user = users(:michael)
   end
 
-  test "password resets" do
+  test "starting password reset" do
+    #パスワードリセット要求送信テスト
     get new_password_reset_path
     assert_template 'password_resets/new'
     #メールアドレスが無効のとき
@@ -20,8 +21,11 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_not flash.empty?
     assert_redirected_to root_url
-    #パスワード再設定フォームのテスト
-    user = assigns(:user)
+  end
+
+  test "password-reset request is invalid" do
+    #パスワード再設定フォームの要求テスト(要求が通らない条件)
+    user = submit_reset_password(@user)
     #メールアドレスが無効のとき
     get edit_password_reset_path(user.reset_token, email: "")
     assert_redirected_to root_url
@@ -33,10 +37,19 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     #メールアドレスが有効で、トークンが無効
     get edit_password_reset_path('wrong token', email: user.email)
     assert_redirected_to root_url
-    #メールもトークンも有効
+  end
+
+  test "password-reset request is valid" do
+    #パスワード再設定フォームの要求テスト(要求が通る条件)
+    user = submit_reset_password(@user)
     get edit_password_reset_path(user.reset_token, email: user.email)
     assert_template 'password_resets/edit'
     assert_select "input[name=email][type=hidden][value=?]", user.email
+  end
+
+  test "password-reset is invalid" do
+    #パスワード再設定テスト（要求が通らないとき）
+    user = submit_reset_password(@user)
     #無効なパスワードとパスワード確認
     patch password_reset_path(user.reset_token), params: {
       email: user.email,
@@ -55,7 +68,11 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
       }
     }
     assert_select 'div#error_explanation'
+  end
+
+  test "password-reset is valid" do
     #有効なパスワード・パスワード確認
+    user = submit_reset_password(@user)
     patch password_reset_path(user.reset_token), params: {
       email: user.email,
       user: {
@@ -71,12 +88,10 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
 
   test "expired token" do
     get new_password_reset_path
-    post password_resets_path, params: {password_reset: {email: @user.email}}
-
-    @user = assigns(:user)
-    @user.update_attribute(:reset_sent_at, 3.hours.ago)
-    patch password_reset_path(@user.reset_token), params: {
-      email: @user.email,
+    user = submit_reset_password(@user)
+    user.update_attribute(:reset_sent_at, 3.hours.ago)
+    patch password_reset_path(user.reset_token), params: {
+      email: user.email,
       user: {
         password: "foobar",
         password_confirmation: "foobar"
