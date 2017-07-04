@@ -63,15 +63,16 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   host = 'https://thawing-hollows-48327.herokuapp.com'
-  config.action_mailer.default_url_options = {host: host}
+  config.action_mailer.default_url_options = {host: host, protocol: 'https'}
   ActionMailer::Base.smtp_settings = {
     :address                => ENV['GT_ADDR'],
     :port                   => ENV['GT_PORT'],
     :authentication         => :plain,
     :user_name              => ENV['GT_USERNAME'],
     :password               => ENV['GT_PASSWORD'],
-    :domain                 => 'heroku.com',
-    :enable_starttls_auto   => true
+    :domain                 => ENV['GT_DOMAIN'],
+    :enable_starttls_auto   => false,
+    :ssl                    => true
   }
 
 
