@@ -31,4 +31,3 @@ class MicropostTest < ActiveSupport::TestCase
   end
 
 end
-
