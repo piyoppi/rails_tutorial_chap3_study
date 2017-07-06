@@ -20,4 +20,10 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "the number of following and followers" do
+    get user_path(@user)
+    assert_select 'strong#following', text: @user.following.count.to_s
+    assert_select 'strong#followers', text: @user.followers.count.to_s
+  end
+
 end
