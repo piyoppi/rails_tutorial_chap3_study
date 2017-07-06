@@ -1,9 +1,26 @@
 class User < ApplicationRecord
+  # micropostをユーザーはたくさん持っている状態を記述
+  # micropost_id が外部キーとして自動的に設定される
   has_many :microposts, dependent: :destroy
+
+  # フォローしているユーザーの状態を記述
+  # (UserテーブルとRelationshipテーブルの関連付け)
+  # follower_id（フォローしているユーザーのID）が外部キーとなる
+  # Userが削除されると関連するカラムが削除される
   has_many :active_relationships, class_name: "Relationship",
                                   foreign_key: "follower_id",
                                   dependent: :destroy
+  # フォローユーザー対フォロワーユーザーの管理
+  # (followedとUserの関連付けをactive_relationshipを通じて行う）
   has_many :following, through: :active_relationships, source: :followed
+
+  has_many :passive_relationships,  class_name: "Relationship",
+                                    foreign_key: "followed_id",
+                                    dependent: :destroy
+  # Railsはsource(キー）をfollowersの単数形であるfollowerと自動推測するが、
+  # 今回は明示的にsourceを指定する
+  has_many :followers, through: :passive_relationships, source: :follower
+
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email
   before_create :create_activation_digest
