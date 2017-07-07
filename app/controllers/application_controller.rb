@@ -6,9 +6,16 @@ class ApplicationController < ActionController::Base
 
     def logged_in_user
       unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
+        respond_to do |format|
+          format.html {
+            store_location
+            flash[:danger] = "Please log in."
+            redirect_to login_url
+          }
+          format.json {
+            render json: { message: "Please log in." }
+          }
+        end
       end
     end
 

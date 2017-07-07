@@ -11,12 +11,20 @@ class SessionsController < ApplicationController
         params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
         respond_to do |format|
           format.html { redirect_back_or @user }
+          format.json { render json: {message: "Login successful."} }
         end
       else
-        message = "Account not activated."
-        message += "Check your email for the activation link."
-        flash[:warning] = message
-        redirect_to root_url
+        respond_to do |format|
+          format.html {
+            message = "Account not activated."
+            message += "Check your email for the activation link."
+            flash[:warning] = message
+            redirect_to root_url
+          }
+          format.json {
+            render json: {message: "Account not activated."}
+          }
+        end
       end
     else
       flash.now[:danger] = "Invalid email/password combination"

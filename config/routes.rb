@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   scope :api, format: 'json' do
     resources :users
-    resources :sessions only[:create, :destroy]
+    resources :sessions, only: [:create, :destroy]
   end
 
 end

@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @microposts = @user.microposts.paginate(page: params[:page])
     respond_to do |format|
       format.html { redirect_to root_url and return unless @user.activated }
-      format.json { render json: @microposts }
+      format.json { render json: {micropost: @microposts} }
     end
   end
 
