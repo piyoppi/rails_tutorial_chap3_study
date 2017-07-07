@@ -99,7 +99,24 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+
+
   class << self
+
+    def login_auth(params)
+      user = User.find_by(email: params[:email].downcase)
+      if user && user.authenticate(params[:password])
+        if !user.activated?
+          message = "Account not activated."
+          message += "Check your email for the activation link."
+          raise UserActivateError, message
+        end
+      else
+        raise InvalidLoginParameterError, "Invalid email/password combination"
+      end
+
+      return user
+    end
 
     def digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
@@ -114,14 +131,16 @@ class User < ApplicationRecord
 
   private
 
-    def downcase_email
-      self.email.downcase!
-    end
+  def downcase_email
+    self.email.downcase!
+  end
 
-    def create_activation_digest
-      self.activation_token = User.new_token;
-      self.activation_digest = User.digest(activation_token);
-    end
+  def create_activation_digest
+    self.activation_token = User.new_token;
+    self.activation_digest = User.digest(activation_token);
+  end
 
 end
 
+class UserActivateError < StandardError; end
+class InvalidLoginParameterError < StandardError; end

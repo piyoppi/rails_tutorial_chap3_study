@@ -23,7 +23,8 @@ Rails.application.routes.draw do
 
   scope :api, format: 'json' do
     resources :users
-    resources :sessions, only: [:create, :destroy]
+    resources :application_interface_auth, only: [:create, :destroy], path: 'auth'
   end
+
 
 end
