@@ -10,7 +10,10 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
-    redirect_to root_url and return unless @user.activated
+    respond_to do |format|
+      format.html { redirect_to root_url and return unless @user.activated }
+      format.json { render json: @microposts }
+    end
   end
 
   def new
