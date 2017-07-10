@@ -21,7 +21,8 @@ module ApplicationInterfaceAuthHelper
   end
 
   def logged_in_api?(token)
-    !!User.where(api_digest: token); 
+    return nil if token.nil?
+    !!User.find_by(api_digest: token); 
   end
 
 end
