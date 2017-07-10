@@ -35,4 +35,8 @@ class ActionDispatch::IntegrationTest
     post password_resets_path, params: {password_reset: {email: user.email}}
     assigns(:user)
   end
+
+  def json_response
+        ActiveSupport::JSON.decode @response.body
+  end
 end

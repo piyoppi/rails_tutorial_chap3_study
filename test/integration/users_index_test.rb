@@ -26,4 +26,16 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_select 'a', text: 'delete', count: 0
   end
 
+  test "json as non-login" do
+    log_in_as_api(@user)
+    get "/api/#{users_path}", headers: {'Authorization' => 'invalid'}
+    assert_equal json_response["message"], "Please log in."
+  end
+
+  test "json as login" do
+    log_in_as_api(@user)
+    get "/api/#{users_path}", headers: {'Authorization' => @user.reload.api_digest}
+    assert_not_equal json_response["message"], "Please log in."
+  end
+
 end
