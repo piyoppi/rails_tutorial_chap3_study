@@ -4,21 +4,25 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
 
   GET_USER_UNIT = 10
+  GET_MICROPOST_UNIT = 10
 
   def index
     respond_to do |format|
       format.html { @users = User.where(activated: true).paginate(page: params[:page]) }
       format.json { render json: { users: User.where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i) } }
-
     end
   end
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
     respond_to do |format|
-      format.html { redirect_to root_url and return unless @user.activated }
-      format.json { render json: {micropost: @microposts} }
+      format.html {
+        @microposts = @user.microposts.paginate(page: params[:page])
+        redirect_to root_url and return unless @user.activated
+      }
+      format.json {
+        render json: {micropost: @user.microposts.limit(GET_MICROPOST_UNIT).offset(GET_MICROPOST_UNIT * params[:page].to_i) }
+      }
     end
   end
 
