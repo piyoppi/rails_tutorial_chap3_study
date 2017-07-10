@@ -25,8 +25,11 @@ Rails.application.routes.draw do
   resources :relationships, only: [:create, :destroy]
 
   scope :api, format: 'json' do
-    resources :users
-    #resources :application_interface_auth, only: [:create, :destroy], path: 'auth'
+    resources :users do
+      member do
+        get :following, :followers
+      end
+    end
   end
 
 

@@ -5,11 +5,13 @@ class UsersController < ApplicationController
 
   GET_USER_UNIT = 10
   GET_MICROPOST_UNIT = 10
+  GET_FOLLOWING_UNIT = 10
+  GET_FOLLOWERS_UNIT = 10
 
   def index
     respond_to do |format|
       format.html { @users = User.where(activated: true).paginate(page: params[:page]) }
-      format.json { render json: { users: User.where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i) } }
+      format.json { render json: { users: User.select("id,name").where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i) } }
     end
   end
 
@@ -60,17 +62,31 @@ class UsersController < ApplicationController
   end
 
   def following
-    @title = "Following"
     @user = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page])
-    render 'show_follow'
+    respond_to do |format|
+      format.html{
+        @title = "Following"
+        @users = @user.following.paginate(page: params[:page])
+        render 'show_follow'
+      }
+      format.json{
+        render json: { users: @user.following.limit(GET_FOLLOWING_UNIT).offset(GET_FOLLOWING_UNIT * params[:page].to_i) }       
+      }
+    end
   end
 
   def followers
-    @title = "Followers"
     @user = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
-    render 'show_follow'
+    respond_to do |format|
+      format.html{
+        @title = "Followers"
+        @users = @user.followers.paginate(page: params[:page])
+        render 'show_follow'
+      }
+      format.json{
+        render json: { users: @user.followers.limit(GET_FOLLOWERS_UNIT).offset(GET_FOLLOWERS_UNIT * params[:page].to_i) }       
+      }
+    end
   end
 
   private
