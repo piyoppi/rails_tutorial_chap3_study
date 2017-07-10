@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
+  post '/api/login', to: 'application_interface_auth#create'
+  delete 'api/logout', to: 'application_interface_auth#destroy'
+
   resources :users do
     member do
       get :following, :followers
@@ -23,7 +26,7 @@ Rails.application.routes.draw do
 
   scope :api, format: 'json' do
     resources :users
-    resources :application_interface_auth, only: [:create, :destroy], path: 'auth'
+    #resources :application_interface_auth, only: [:create, :destroy], path: 'auth'
   end
 
 
