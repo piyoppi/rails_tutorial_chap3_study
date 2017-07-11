@@ -16,10 +16,10 @@ class ApplicationInterfaceAuthController < ApplicationController
 
   def destroy
     begin
-      log_out_api request.headers[:HTTP_AUTHORIZATION]
+      log_out_api
       render json: {message: "Logout successful!"}
     rescue => e
-      render json: {message: "Invalid access token.", token: request.headers[:HTTP_AUTHORIZATION]}
+      render json: {message: "Invalid access token.", token: get_request_api_token}
     end
   end
     

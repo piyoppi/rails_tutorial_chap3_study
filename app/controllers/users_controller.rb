@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def feed
-    current_user = current_user_api request.headers[:HTTP_AUTHORIZATION]
+    current_user = current_user_api
     feed = current_user.feed.limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)
     user_ids = []
     feed.map { |micropost| user_ids << micropost.user_id unless user_ids.include?(micropost.user_id) }
@@ -102,6 +102,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation )
+  end
+
+  def user_content
+    params.require(:user).permit(:id, :name)
   end
 
   def correct_user

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   private 
 
     def logged_in_user
-      unless logged_in? || logged_in_api?(request.headers[:HTTP_AUTHORIZATION])
+      unless logged_in? || logged_in_api?
         respond_to do |format|
           format.html {
             store_location
