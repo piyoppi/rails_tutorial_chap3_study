@@ -16,7 +16,7 @@ class MicropostsController < ApplicationController
         end
       }
       format.json{
-        @micropost = current_user_api.microposts.build(micropost_params_api)
+        @micropost = current_user.microposts.build(micropost_params_api)
         if @micropost.save
           render json: {message: "Micropost created!", id: @micropost.reload.id} 
         else
@@ -41,21 +41,22 @@ class MicropostsController < ApplicationController
 
   private
 
-  def micropost_params
-    params.require(:micropost).permit(:content, :picture)
-  end
-
-  def micropost_params_api
-    params.permit(:content, :picture)
-  end
-
-  def correct_user
-    respond_to do |format|
-      format.html { @micropost = current_user.microposts.find_by(id: params[:id]) }
-      format.json { @micropost = current_user_api.microposts.find_by(id: params[:id]) }
+    def micropost_params
+      params.require(:micropost).permit(:content, :picture)
     end
-   
-    redirect_to root_url if @micropost.nil?
-  end
+
+    def micropost_params_api
+      params.permit(:content, :picture)
+    end
+
+    def correct_user
+      @micropost = current_user.microposts.find_by(id: params[:id])
+      if @micropost.nil?
+        respond_to do |format|
+          format.html { redirect_to root_url }
+          format.json { render json: {message: "Permission denied."} }
+        end
+      end
+    end
 
 end

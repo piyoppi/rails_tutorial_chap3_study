@@ -16,7 +16,6 @@ class UsersController < ApplicationController
   end
 
   def feed
-    current_user = current_user_api
     feed = current_user.feed.limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)
     user_ids = []
     feed.map { |micropost| user_ids << micropost.user_id unless user_ids.include?(micropost.user_id) }

@@ -10,4 +10,8 @@ module ApplicationHelper
     end
   end
 
+  def current_user
+    return current_user_sess || current_user_api
+  end
+
 end
