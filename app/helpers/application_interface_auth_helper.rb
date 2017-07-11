@@ -2,7 +2,6 @@ require 'base64'
 
 module ApplicationInterfaceAuthHelper
 
-
   def log_in_api(user)
     secret_key = "asdfjkhvlerADFGweohfgawoe"
     header = {type: "JWT", alg: "HS256"}
@@ -38,6 +37,7 @@ module ApplicationInterfaceAuthHelper
   def get_request_api_token
     return request.headers[:HTTP_AUTHORIZATION]
   end
+
 end
 
 class UserMissingError < StandardError; end
