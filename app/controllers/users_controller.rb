@@ -11,8 +11,17 @@ class UsersController < ApplicationController
   def index
     respond_to do |format|
       format.html { @users = User.where(activated: true).paginate(page: params[:page]) }
-      format.json { render json: { users: User.select("id,name").where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i) } }
+      format.json { render json: {users: User.select("id,name").where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)} }
     end
+  end
+
+  def feed
+    current_user = current_user_api request.headers[:HTTP_AUTHORIZATION]
+    feed = current_user.feed.limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)
+    user_ids = []
+    feed.map { |micropost| user_ids << micropost.user_id unless user_ids.include?(micropost.user_id) }
+    feed_users = User.select("id, name").where(id: user_ids)
+    render json: {feed: feed, users: feed_users}
   end
 
   def show

@@ -14,15 +14,22 @@ module ApplicationInterfaceAuthHelper
     return api_token
   end
 
+  def current_user_api(token)
+    return nil if token.nil?
+    @current_user_api ||= User.find_by(api_digest: token)
+  end
+
   def log_out_api(token)
-    user = User.find_by(api_digest: token)
-    raise UserActivateError, "token is not found." if !user
+    raise UserActivateError, "token is not found." unless token
+    user = current_user_api(token)
+    raise UserActivateError, "token is not found." unless user
     user.update_attribute(:api_digest, nil);
   end
 
   def logged_in_api?(token)
     return nil if token.nil?
-    !!User.find_by(api_digest: token); 
+    user = current_user_api(token)
+    return !!@current_user_api
   end
 
 end
