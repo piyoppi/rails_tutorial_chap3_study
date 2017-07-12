@@ -1,6 +1,6 @@
-class ApplicationInterfaceAuthController < ApplicationController
+class Api::AuthController < ApplicationController
   protect_from_forgery with: :null_session
-  include ApplicationInterfaceAuthHelper
+  include Api::AuthHelper
 
   def create
     begin

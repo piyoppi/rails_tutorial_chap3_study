@@ -10,7 +10,10 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  post '/api/login', to: 'application_interface_auth#create'
+
+  namespace :api do
+    post '/login', to: 'auth#create'
+  end
 
   resources :users do
     member do

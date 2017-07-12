@@ -1,6 +1,6 @@
 require 'jwt'
 
-module ApplicationInterfaceAuthHelper
+module Api::AuthHelper
 
   def log_in_api(user)
     payload = {iss: "example.com", exp: Time.now.to_i + Rails.application.secrets.api_token_exp, user_id: user.id}

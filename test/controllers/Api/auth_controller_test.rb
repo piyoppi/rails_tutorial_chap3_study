@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationInterfaceAuthControllerTest < ActionDispatch::IntegrationTest
+class Api::AuthControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
   end
