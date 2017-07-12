@@ -24,4 +24,3 @@ module Api::AuthHelper
 
 end
 
-class UserMissingError < StandardError; end

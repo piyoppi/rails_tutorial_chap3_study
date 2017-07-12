@@ -1,4 +1,5 @@
 class Api::AuthController < ApplicationController
+  rescue_from Api::Errors::Base, with: :handle_error
   protect_from_forgery with: :null_session
   include Api::AuthHelper
 
@@ -8,10 +9,14 @@ class Api::AuthController < ApplicationController
       token = log_in_api @user
       render json: {message: "Login successful!", access_token: token, status: 200}
     rescue UserActivateError => e
-      render json: {message: e.message, status: 401}
+      raise Api::Errors::UserActivateError 
     rescue InvalidLoginParameterError => e
-      render json: {message: e.message, status: 401}
+      raise Api::Errors::InvalidLoginParameterError 
     end
+  end
+
+  def handle_error(error)
+    render json: {message: error.detail, status: error.status_code}
   end
 
 end
