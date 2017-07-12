@@ -99,8 +99,6 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
-
-
   class << self
 
     def login_auth(params)

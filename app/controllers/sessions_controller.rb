@@ -4,7 +4,6 @@ class SessionsController < ApplicationController
   end
 
   def create
-
     begin
       @user = User.login_auth(params[:session])
       log_in @user
