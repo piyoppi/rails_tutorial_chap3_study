@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
             redirect_to login_url
           }
           format.json {
-            render json: { message: "Please log in." }
+            render json: { message: "Please log in.", status: 401 }
           }
         end
       end
