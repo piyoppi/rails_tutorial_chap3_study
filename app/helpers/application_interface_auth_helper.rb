@@ -3,10 +3,8 @@ require 'jwt'
 module ApplicationInterfaceAuthHelper
 
   def log_in_api(user)
-    secret_key = "asdfjkhvlerADFGweohfgawoe"
-    expire_sec = 3600
-    payload = {iss: "example.com", exp: Time.now.to_i + expire_sec, user_id: user.id}
-    return JWT.encode payload, secret_key, 'HS256'
+    payload = {iss: "example.com", exp: Time.now.to_i + Rails.application.secrets.api_token_exp, user_id: user.id}
+    return JWT.encode payload, Rails.application.secrets.api_secret_key, 'HS256'
   end
 
   def log_out_api(token)
