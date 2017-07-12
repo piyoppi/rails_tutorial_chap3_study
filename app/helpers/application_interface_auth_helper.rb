@@ -7,12 +7,6 @@ module ApplicationInterfaceAuthHelper
     return JWT.encode payload, Rails.application.secrets.api_secret_key, 'HS256'
   end
 
-  def log_out_api(token)
-    user = required_user(token)
-    raise UserActivateError, "token is not found." if !user
-    user.update_attribute(:api_digest, nil);
-  end
-
   def logged_in_api?(token)
     !!required_user(token)
   end

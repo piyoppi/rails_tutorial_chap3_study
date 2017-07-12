@@ -10,9 +10,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-
   post '/api/login', to: 'application_interface_auth#create'
-  delete 'api/logout', to: 'application_interface_auth#destroy'
 
   resources :users do
     member do

@@ -14,13 +14,4 @@ class ApplicationInterfaceAuthController < ApplicationController
     end
   end
 
-  def destroy
-    begin
-      log_out_api request.headers[:HTTP_AUTHORIZATION]
-      render json: {message: "Logout successful!", status: 200}
-    rescue => e
-      render json: {message: "Invalid access token.", token: request.headers[:HTTP_AUTHORIZATION], status: 401}
-    end
-  end
-    
 end
