@@ -105,15 +105,13 @@ class User < ApplicationRecord
       user = User.find_by(email: params[:email].downcase)
       if user && user.authenticate(params[:password])
         if !user.activated?
-          message = "Account not activated."
-          message += "Check your email for the activation link."
-          raise UserActivateError, message
+          raise UserActivateError, "Account not activated. Check your email for the activation link."
         end
       else
         raise InvalidLoginParameterError, "Invalid email/password combination"
       end
 
-      return user
+      user
     end
 
     def digest(string)
