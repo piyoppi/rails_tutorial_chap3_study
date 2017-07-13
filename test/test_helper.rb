@@ -38,7 +38,6 @@ class ActionDispatch::IntegrationTest
   end
 
   def json_response
-     @json_response ||= ActiveSupport::JSON.decode @response.body
-     return @json_response
+     ActiveSupport::JSON.decode @response.body
   end
 end
