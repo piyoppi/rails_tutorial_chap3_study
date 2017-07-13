@@ -11,9 +11,10 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  post '/api/login', to: 'application_interface_auth#create'
-  delete 'api/logout', to: 'application_interface_auth#destroy'
-  get '/api/feed', to: 'users#feed', format: 'json'
+  namespace :api do
+    post '/login', to: 'auth#create'
+    resources :feed, only: [:index]
+  end
 
   resources :users do
     member do

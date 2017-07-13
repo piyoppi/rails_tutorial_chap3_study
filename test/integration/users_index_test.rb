@@ -27,15 +27,15 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
   end
 
   test "json as non-login" do
-    log_in_as_api(@user)
+    login_response = log_in_as_api(@user)
     get "/api/#{users_path}", headers: {'Authorization' => 'invalid'}
-    assert_equal json_response["message"], "Please log in."
+    assert_response 401
   end
 
   test "json as login" do
-    log_in_as_api(@user)
-    get "/api/#{users_path}", headers: {'Authorization' => @user.reload.api_digest}
-    assert_not_equal json_response["message"], "Please log in."
+    login_response = log_in_as_api(@user)
+    get "/api/#{users_path}", headers: {'Authorization' => login_response["access_token"]}
+    assert_response 200
   end
 
 end

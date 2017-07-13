@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers, :feed]
+  rescue_from Api::Errors::Base, with: :handle_error
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
 
@@ -11,16 +12,8 @@ class UsersController < ApplicationController
   def index
     respond_to do |format|
       format.html { @users = User.where(activated: true).paginate(page: params[:page]) }
-      format.json { render json: {users: User.select("id,name").where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)} }
+      format.json { render json: {users: User.select("id,name").where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)}, status: 200 }
     end
-  end
-
-  def feed
-    feed = current_user.feed.limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)
-    user_ids = []
-    feed.map { |micropost| user_ids << micropost.user_id unless user_ids.include?(micropost.user_id) }
-    feed_users = User.select("id, name").where(id: user_ids)
-    render json: {feed: feed, users: feed_users}
   end
 
   def show
@@ -31,7 +24,7 @@ class UsersController < ApplicationController
         redirect_to root_url and return unless @user.activated
       }
       format.json {
-        render json: {micropost: @user.microposts.limit(GET_MICROPOST_UNIT).offset(GET_MICROPOST_UNIT * params[:page].to_i) }
+        render json: {micropost: @user.microposts.limit(GET_MICROPOST_UNIT).offset(GET_MICROPOST_UNIT * params[:page].to_i), status: 200 }
       }
     end
   end
@@ -78,7 +71,7 @@ class UsersController < ApplicationController
         render 'show_follow'
       }
       format.json{
-        render json: { users: @user.following.limit(GET_FOLLOWING_UNIT).offset(GET_FOLLOWING_UNIT * params[:page].to_i) }       
+        render json: { users: @user.following.limit(GET_FOLLOWING_UNIT).offset(GET_FOLLOWING_UNIT * params[:page].to_i), status: 200 }       
       }
     end
   end
@@ -92,28 +85,32 @@ class UsersController < ApplicationController
         render 'show_follow'
       }
       format.json{
-        render json: { users: @user.followers.limit(GET_FOLLOWERS_UNIT).offset(GET_FOLLOWERS_UNIT * params[:page].to_i) }       
+        render json: { users: @user.followers.limit(GET_FOLLOWERS_UNIT).offset(GET_FOLLOWERS_UNIT * params[:page].to_i), status: 200 }       
       }
     end
   end
 
   private
 
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation )
-  end
+    def user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation )
+    end
 
-  def user_content
-    params.require(:user).permit(:id, :name)
-  end
+    def user_content
+      params.require(:user).permit(:id, :name)
+    end
 
-  def correct_user
-    @user = User.find(params[:id])
-    redirect_to(root_url) unless current_user?(@user)
-  end
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
+    end
 
-  def admin_user
-    redirect_to(root_url) unless current_user.admin?
-  end
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
+
+    def handle_error(error)
+      render json: {message: error.detail}, status: error.status_code
+    end
 
 end
