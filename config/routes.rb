@@ -10,6 +10,11 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+
+  namespace :api do
+    post '/login', to: 'auth#create'
+  end
+
   resources :users do
     member do
       get :following, :followers
@@ -19,4 +24,10 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
+
+  scope :api, format: 'json' do
+    resources :users
+  end
+
+
 end

@@ -91,4 +91,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_url
   end
 
+  test "should login through api" do
+    user = User.login_auth(email: @user.email, password: 'password')
+    assert_not user.nil?
+  end
+
 end

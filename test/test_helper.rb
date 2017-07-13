@@ -27,6 +27,10 @@ class ActionDispatch::IntegrationTest
                                           remember_me: remember_me } }
   end
 
+  def log_in_as_api(user)
+    post api_login_path, params: {email: @user.email, password: "password"}
+  end
+
   def submit_reset_password(user)
     post password_resets_path, params: {password_reset: {email: user.email}}
     assigns(:user)
