@@ -11,11 +11,6 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  namespace :api do
-    post '/login', to: 'auth#create'
-    resources :feed, only: [:index]
-  end
-
   resources :users do
     member do
       get :following, :followers
@@ -26,6 +21,9 @@ Rails.application.routes.draw do
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
 
+  # ---------------------------
+  # For API
+  
   scope :api, format: 'json' do
     resources :users do
       member do
@@ -36,5 +34,9 @@ Rails.application.routes.draw do
     resources :relationships, only: [:create, :destroy]
   end
 
+  namespace :api do
+    post '/login', to: 'auth#create'
+    resources :feed, only: [:index]
+  end
 
 end

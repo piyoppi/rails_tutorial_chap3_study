@@ -71,5 +71,37 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     assert_match "1 micropost", response.body
   end
 
+  test "invalid post of micropost through api" do
+    assert_no_difference 'Micropost.count' do
+      post "/api/#{microposts_path}", params: {content: "hoge"}, headers: {'Authorization' => "invalid_token"}
+    end
+    assert_response 401
+  end
+
+  test "valid post of micropost through api" do
+    login_response = log_in_as_api(@user)
+    assert_difference 'Micropost.count', 1 do
+      post "/api/#{microposts_path}", params: {content: "hoge"}, headers: {'Authorization' => login_response["access_token"]}
+      assert_response 200
+    end
+  end
+
+  test "delete micropost through api" do
+    login_response = log_in_as_api(@user)
+    first_micropost = @user.microposts.paginate(page: 1).first
+    assert_difference 'Micropost.count', -1 do
+      delete "/api/#{micropost_path(first_micropost)}", params: {content: "hoge"}, headers: {'Authorization' => login_response["access_token"]}
+      assert_response 200
+    end
+  end
+
+  test "invalid delete micropost through api" do
+    first_micropost = @user.microposts.paginate(page: 1).first
+    assert_no_difference 'Micropost.count' do
+      delete "/api/#{micropost_path(first_micropost)}", params: {content: "hoge"}, headers: {'Authorization' => "invalid_token"}
+      assert_response 401
+    end
+  end
+
 end
 

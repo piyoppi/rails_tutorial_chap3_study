@@ -1,4 +1,5 @@
 class MicropostsController < ApplicationController
+  rescue_from Api::Errors::Base, with: :handle_error
   protect_from_forgery with: :null_session
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user, only: :destroy
@@ -18,7 +19,7 @@ class MicropostsController < ApplicationController
       format.json{
         @micropost = current_user.microposts.build(micropost_params_api)
         if @micropost.save
-          render json: {message: "Micropost created!", id: @micropost.reload.id} 
+          render json: {message: "Micropost created!", id: @micropost.reload.id}, status: 200
         else
           render json: {message: "Micropost creation was failed"}, status: 400 
         end
@@ -34,7 +35,7 @@ class MicropostsController < ApplicationController
         redirect_back(fallback_location: root_url)
       }
       format.json{
-        render json: {message: "Micropost deleted"} 
+        render json: {message: "Micropost deleted"}, status: 200
       }
     end
   end
@@ -57,6 +58,10 @@ class MicropostsController < ApplicationController
           format.json { render json: {message: "Permission denied."} }
         end
       end
+    end
+
+    def handle_error(error)
+      render json: {message: error.detail}, status: error.status_code
     end
 
 end
