@@ -6,8 +6,8 @@ class Api::AuthController < ApplicationController
   def create
     begin
       @user = User.login_auth(params)
-      token = log_in_api @user
-      render json: {message: "Login successful!", access_token: token, status: 200}
+      token = generate_token @user
+      render json: {message: "Login successful!", access_token: token}, status: 200
     rescue UserActivateError => e
       raise Api::Errors::UserActivateError 
     rescue InvalidLoginParameterError => e
@@ -16,7 +16,7 @@ class Api::AuthController < ApplicationController
   end
 
   def handle_error(error)
-    render json: {message: error.detail, status: error.status_code}
+    render json: {message: error.detail}, status: error.status_code
   end
 
 end

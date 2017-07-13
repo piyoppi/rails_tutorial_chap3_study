@@ -1,13 +1,12 @@
-require 'jwt'
-
 module Api::AuthHelper
 
-  def log_in_api(user)
-    payload = {iss: "example.com", exp: Time.now.to_i + Rails.application.secrets.api_token_exp, user_id: user.id}
+  def generate_token(user)
+    exptime = Time.now.to_i + Rails.application.secrets.api_token_exp
+    payload = {iss: "example.com", exp: exptime, user_id: user.id}
     return JWT.encode payload, Rails.application.secrets.api_secret_key, 'HS256'
   end
 
-  def logged_in_api?(token)
+  def valid_token?(token)
     !!required_user(token)
   end
 
