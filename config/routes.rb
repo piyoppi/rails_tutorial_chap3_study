@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'mobile_pages/home'
+
   root 'static_pages#home'
   get 'password_resets/new'
   get 'password_resets/edit'
