@@ -9,27 +9,32 @@ import App from './app.vue'
 
 const axios = require('axios')
 
-var appi;
-
 function get_micropost(){
     axios.get('/api/users/1').then(function(response){
         console.log(response);   
-        console.log(appi);   
-        appi.microposts = response.data.micropost;
+        app.microposts = response.data.micropost;
     })
     .catch(function(error){
         console.log(error);   
     });
 }
 
- document.addEventListener('DOMContentLoaded', () => {
-   document.body.appendChild(document.createElement('hello'))
-   appi = new Vue(App).$mount('hello')
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new Vue({
+        el: '#app',
+        data: {
+            microposts: []
+        },
+        methods: {
 
-   get_micropost();
- 
-   console.log(app)
- })
+        }
+    });
+
+    get_micropost();
+
+    console.log(app);
+})
+
 
 
 /* eslint no-console: 0 */
@@ -38,6 +43,15 @@ function get_micropost(){
 // like app/views/layouts/application.html.erb.
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 
+// import Vue from 'vue'
+// import App from './app.vue'
+// 
+// document.addEventListener('DOMContentLoaded', () => {
+//   document.body.appendChild(document.createElement('hello'))
+//   const app = new Vue(App).$mount('hello')
+// 
+//   console.log(app)
+// })
 
 
 // The above code uses Vue without the compiler, which means you cannot
