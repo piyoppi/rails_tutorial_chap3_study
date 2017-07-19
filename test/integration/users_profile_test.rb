@@ -26,4 +26,22 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_select 'strong#followers', text: @user.followers.count.to_s
   end
 
+  test "getting any following-users from api" do
+    login_response = log_in_as_api(@user)
+    get "/api/#{following_user_path @user}", headers: {'Authorization' => login_response["access_token"]}
+    assert_response 200
+    @user.following.limit(10).offset(0).each do |user|
+      assert json_response["users"].to_s.include? user.name
+    end
+  end
+
+  test "getting any followers from api" do
+    login_response = log_in_as_api(@user)
+    get "/api/#{followers_user_path @user}", headers: {'Authorization' => login_response["access_token"]}
+    assert_response 200
+    @user.followers.limit(10).offset(0).each do |user|
+      assert json_response["users"].to_s.include? user.name
+    end
+  end
+
 end

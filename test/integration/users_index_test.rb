@@ -26,4 +26,19 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_select 'a', text: 'delete', count: 0
   end
 
+  test "json as non-login" do
+    login_response = log_in_as_api(@user)
+    get "/api/#{users_path}", headers: {'Authorization' => 'invalid'}
+    assert_response 401
+  end
+
+  test "json as login" do
+    login_response = log_in_as_api(@user)
+    get "/api/#{users_path}", headers: {'Authorization' => login_response["access_token"]}
+    assert_response 200
+    User.where(activated: true).limit(10).offset(0).each do |user|
+      assert json_response["users"].to_s.include? user.name
+    end
+  end
+
 end

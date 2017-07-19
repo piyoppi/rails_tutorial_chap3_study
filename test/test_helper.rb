@@ -29,10 +29,15 @@ class ActionDispatch::IntegrationTest
 
   def log_in_as_api(user)
     post api_login_path, params: {email: @user.email, password: "password"}
+    return json_response
   end
 
   def submit_reset_password(user)
     post password_resets_path, params: {password_reset: {email: user.email}}
     assigns(:user)
+  end
+
+  def json_response
+     ActiveSupport::JSON.decode @response.body
   end
 end

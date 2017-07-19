@@ -61,4 +61,25 @@ class FollowingTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "follow through api" do
+    login_response = log_in_as_api(@user)
+    assert_difference '@user.following.count', 1 do
+      post "/api/#{relationships_path}",
+           headers: {'Authorization' => login_response["access_token"]},
+           params: {followed_id: @other.id}
+      assert_response 200
+    end
+  end
+
+  test "unfollow through api" do
+    login_response = log_in_as_api(@user)
+    @user.follow(@other)
+    relationship = @user.active_relationships.find_by(followed_id: @other.id)
+    assert_difference '@user.following.count', -1 do
+      delete "/api/#{relationship_path(relationship)}",
+             headers: {'Authorization' => login_response["access_token"]}
+      assert_response 200
+    end
+  end
+
 end

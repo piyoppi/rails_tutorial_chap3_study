@@ -1,18 +1,31 @@
 class UsersController < ApplicationController
+  rescue_from Api::Errors::Base, with: :handle_error
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
 
+  GET_USER_UNIT = 10
+  GET_MICROPOST_UNIT = 10
+  GET_FOLLOWING_UNIT = 10
+  GET_FOLLOWERS_UNIT = 10
+
   def index
-    @users = User.where(activated: true).paginate(page: params[:page])
+    respond_to do |format|
+      format.html { @users = User.where(activated: true).paginate(page: params[:page]) }
+      format.json { render json: {users: User.select("id,name").where(activated: true).limit(GET_USER_UNIT).offset(GET_USER_UNIT * params[:page].to_i)}, status: 200 }
+    end
   end
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
     respond_to do |format|
-      format.html { redirect_to root_url and return unless @user.activated }
-      format.json { render json: {micropost: @microposts}, status: 200 }
+      format.html {
+        @microposts = @user.microposts.paginate(page: params[:page])
+        redirect_to root_url and return unless @user.activated
+      }
+      format.json {
+        render json: {micropost: @user.microposts.limit(GET_MICROPOST_UNIT).offset(GET_MICROPOST_UNIT * params[:page].to_i), status: 200 }
+      }
     end
   end
 
@@ -50,23 +63,41 @@ class UsersController < ApplicationController
   end
 
   def following
-    @title = "Following"
     @user = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page])
-    render 'show_follow'
+    respond_to do |format|
+      format.html{
+        @title = "Following"
+        @users = @user.following.paginate(page: params[:page])
+        render 'show_follow'
+      }
+      format.json{
+        render json: { users: @user.following.limit(GET_FOLLOWING_UNIT).offset(GET_FOLLOWING_UNIT * params[:page].to_i), status: 200 }       
+      }
+    end
   end
 
   def followers
-    @title = "Followers"
     @user = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
-    render 'show_follow'
+    respond_to do |format|
+      format.html{
+        @title = "Followers"
+        @users = @user.followers.paginate(page: params[:page])
+        render 'show_follow'
+      }
+      format.json{
+        render json: { users: @user.followers.limit(GET_FOLLOWERS_UNIT).offset(GET_FOLLOWERS_UNIT * params[:page].to_i), status: 200 }       
+      }
+    end
   end
 
   private
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation )
+    end
+
+    def user_content
+      params.require(:user).permit(:id, :name)
     end
 
     def correct_user
@@ -76,6 +107,10 @@ class UsersController < ApplicationController
 
     def admin_user
       redirect_to(root_url) unless current_user.admin?
+    end
+
+    def handle_error(error)
+      render json: {message: error.detail}, status: error.status_code
     end
 
 end

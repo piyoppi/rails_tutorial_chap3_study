@@ -9,4 +9,9 @@ module ApplicationHelper
       page_title + " | " + base_title
     end
   end
+
+  def current_user
+    return current_user_by_cookie || current_user_by_apitoken
+  end
+
 end
