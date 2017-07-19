@@ -1,4 +1,5 @@
 const axios = require('axios')
+let api_token = "";
 export default class Api{
     constructor(){
 
@@ -16,4 +17,22 @@ export default class Api{
             console.log(error);   
         });
     }
+
+    static get_users(page, callback){
+
+    }
+
+    static login(email, password, callback){
+        axios.post('/api/login/', {
+            email: email,
+            password: password
+        }).then(function(response){
+            api_token = response.data.access_token;
+            callback(response.data);
+        })
+        .catch(function(error){
+            callback({message: "Invalid email/password combination"});
+        });
+    }
+    
 }
