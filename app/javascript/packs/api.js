@@ -1,5 +1,4 @@
 const axios = require('axios')
-let api_token = "";
 export default class Api{
     constructor(){
 
@@ -27,12 +26,24 @@ export default class Api{
             email: email,
             password: password
         }).then(function(response){
-            api_token = response.data.access_token;
+            localStorage.setItem("api_token", response.data.access_token);
             callback(response.data);
         })
         .catch(function(error){
             callback({message: "Invalid email/password combination"});
         });
     }
-    
+
+    static get_userfeed(page, callback){
+        let api_token = localStorage.getItem("api_token");
+        axios.defaults.headers.common['Authorization'] = api_token;
+        axios.post('/api/feed/', {
+            page: page
+        }).then(function(response){
+            callback(response.data);
+        })
+        .catch(function(error){
+            callback({message: "Invalid request"});
+        });
+    }
 }
