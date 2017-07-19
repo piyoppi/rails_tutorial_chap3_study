@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "vue-router": "^2.7.0"
+  }
+}

@@ -1,0 +1,19 @@
+import Vue from 'vue'
+import App from './app.vue'
+import VueRouter from 'vue-router'
+
+//Vue.use(VueRouter);
+
+const routes = [
+    {path: '/user', component: App},
+]
+
+const router = new VueRouter({routes});
+//
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.appendChild(document.createElement('app'))
+    let app = new Vue(App).$mount('app')
+    //let app = new Vue(router).$mount('app')
+})
+
+
