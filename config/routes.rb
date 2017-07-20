@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     resources :relationships, only: [:create, :destroy]
   end
 
-  namespace :api do
+  namespace :api, format: 'json' do
     post '/login', to: 'auth#create'
     resources :feed, only: [:index]
   end

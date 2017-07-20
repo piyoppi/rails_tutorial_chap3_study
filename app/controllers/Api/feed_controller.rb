@@ -1,4 +1,5 @@
 class Api::FeedController < ApplicationController
+  before_action :logged_in_user
   rescue_from Api::Errors::Base, with: :handle_error
   GET_MICROPOSTS_IN_FEED = 10
 
