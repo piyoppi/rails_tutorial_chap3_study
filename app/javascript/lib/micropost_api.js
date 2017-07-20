@@ -58,16 +58,19 @@ export default class Api{
         });
     }
 
-    static get_userfeed(page, callback){
-        let api_token = localStorage.getItem("api_token");
+    static get_own_feed(page, callback){
+        let api_token = this.get_api_token();
         axios.defaults.headers.common['Authorization'] = api_token;
-        axios.post('/api/feed/', {
-            page: page
+        axios.get('/api/feed/', {
+            params: {
+                page: page
+            }
         }).then(function(response){
-            callback(response.data);
+            response.result = true;
+            callback(response);
         })
         .catch(function(error){
-            callback({message: "Invalid request"});
+            callback({result: false});
         });
     }
 }
