@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="login">
       <div id="information">
           {{ message }}
       </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Api from './api.js'
+import Api from '../lib/micropost_api.js'
 export default {
     data: function(){
             return{
