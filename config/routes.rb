@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root 'static_pages#home'
+
+  get '/m', to: 'mobile_pages#index'
+  get '/m/*path', to: 'mobile_pages#index'
   get 'password_resets/new'
   get 'password_resets/edit'
   get '/help', to: 'static_pages#help'
