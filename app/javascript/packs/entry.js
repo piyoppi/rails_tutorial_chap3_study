@@ -11,9 +11,10 @@ Vue.component("root", Root);
 
 
 const routes = [
-    {path: '/m/user/:id', component: UserFeed},
-    {path: '/m/', component: Users},
-    {path: '/m/login', component: Login},
+    {name: 'userfeed', path: '/m/user/:id', component: UserFeed},
+    {name: '', path: '/m/', component: Users},
+    {name: 'users', path: '/m/users', component: Users},
+    {name: 'login', path: '/m/login', component: Login},
 ];
 
 const router = new VueRouter({

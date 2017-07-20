@@ -4,6 +4,8 @@ export default class Api{
 
     }
 
+    static get ERR_API_TOKEN_NOT_FOUND(){ return "Token was not found. Please log in."; }
+
     static get_user_micropost(user_id, page, callback){
         axios.get('/api/users/' + user_id, {
             params: {
@@ -17,8 +19,30 @@ export default class Api{
         });
     }
 
+    static get_api_token(){
+        let api_token = localStorage.getItem("api_token");
+        if(api_token === null) throw Api.ERR_API_TOKEN_NOT_FOUND;
+        return api_token;
+    }
+
+    static is_exist_api_token(){
+        return !!localStorage.getItem("api_token");
+    }
+
     static get_users(page, callback){
-        //あとで実装する
+        let api_token = this.get_api_token();
+        axios.defaults.headers.common['Authorization'] = api_token;
+        axios.get('/api/users/', {
+            params:{
+                page: page
+            }
+        }).then(function(response){
+            response.result = true;
+            callback(response);
+        })
+        .catch(function(error){
+            callback({result: false});
+        });
     }
 
     static login(email, password, callback){
