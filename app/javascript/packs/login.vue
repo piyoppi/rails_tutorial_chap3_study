@@ -20,9 +20,9 @@ export default {
             password: "",
             message: ""
         }
-    }
-    ,
+    },
     created: function(){
+
     },
     methods: {
         request_auth: function(){
