@@ -40,7 +40,6 @@ tags
 /spring/*.pid
 
 /public/uploads/
-/public/packs
 /node_modules
 /public/packs
 /public/packs-test
