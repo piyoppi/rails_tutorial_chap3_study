@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './app.vue'
+import UserFeed from './user_feed.vue'
 import Login from './login.vue'
 import Users from './users.vue'
 import Root from './root.vue'
@@ -11,7 +11,7 @@ Vue.component("root", Root);
 
 
 const routes = [
-    {path: '/m/user/:id', component: App},
+    {path: '/m/user/:id', component: UserFeed},
     {path: '/m/', component: Users},
     {path: '/m/login', component: Login},
 ];
