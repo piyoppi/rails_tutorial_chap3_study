@@ -28,7 +28,7 @@ export default {
             if( this.page >= 0 ) this.page += increment_amount;
             Api.getUserMicropost(this.user_id, this.page).then((e) => {
                 this.users[String(this.user_id)] = {user_id: this.user_id, name: ""};
-                this.microposts = e;
+                this.microposts = e.data.micropost;
             })
             .catch( e => {
                 console.log(e);

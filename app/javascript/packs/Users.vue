@@ -32,12 +32,7 @@ export default {
         get_users: function(increment_amount){
             if( this.page >= 0 ) this.page += increment_amount;
             Api.getUsers(this.page).then(e=>{ 
-                if(e.result){
-                    this.users = e.data.users;
-                }
-                else{
-                    this.message = "Session was expired. Please log in.";
-                }
+                this.users = e.data.users;
             })
             .catch (e=>{
                 this.message = e;

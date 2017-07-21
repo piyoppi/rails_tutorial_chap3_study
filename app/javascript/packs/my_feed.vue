@@ -29,14 +29,9 @@ export default {
         get_feed: function(increment_amount){
             if( this.page >= 0 ) this.page += increment_amount;
             Api.getMyFeed(this.page).then( e=>{ 
-                if(e.result){
-                    this.feeds = e.data.feed;
-                    this.users = {};
-                    e.data.users.forEach( user=>{ this.users[String(user.id)] = user; });
-                }
-                else{
-                    this.message = "Session was expired. Please log in.";
-                }
+                this.feeds = e.data.feed;
+                this.users = {};
+                e.data.users.forEach( user=>{ this.users[String(user.id)] = user; });
             })
             .catch(e=>{
                 this.message = e;

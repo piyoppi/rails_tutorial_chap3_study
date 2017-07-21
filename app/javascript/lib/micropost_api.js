@@ -9,17 +9,10 @@ export default class Api{
     static get ERR_API_SESSION_TIMEOUT(){ return "Session Timeout. Please log in."; }
 
     static getUserMicropost(user_id, page){
-        return new Promise( (resolve, reject) => {
-            axios.get('/api/users/' + user_id, {
-                params: {
-                    page: page
-                }
-            }).then(function(response){
-                resolve( response.data.micropost );
-            })
-            .catch(function(error){
-                reject(Api.ERR_API_SESSION_TIMEOUT);   
-            });
+        return axios.get('/api/users/' + user_id, {
+            params: {
+                page: page
+            }
         });
     }
 
@@ -35,20 +28,22 @@ export default class Api{
 
     static getUsers(page){
         return new Promise( (resolve, reject ) => {
-            let api_token = this.getApiToken();
-            axios.get('/api/users/', {
+            try{
+                let api_token = this.getApiToken();
+                resolve(api_token);
+            }
+            catch(e){
+                reject(e);
+            }
+        })
+        .then( (api_token)=>{
+            return axios.get('/api/users/', {
                 params:{
                     page: page
                 },
                 headers: {
                     'Authorization': api_token
                 }
-            }).then(function(response){
-                response.result = true;
-                resolve(response);
-            })
-            .catch(function(error){
-                reject(Api.ERR_API_SESSION_TIMEOUT);
             });
         });
     }
@@ -68,23 +63,27 @@ export default class Api{
         });
     }
 
+
     static getMyFeed(page){
         return new Promise( (resolve, reject) => {
-            let api_token = this.getApiToken();
-            axios.get('/api/feed/', {
+            try{
+                let api_token = this.getApiToken();
+                resolve(api_token);
+            }
+            catch(e){
+                reject(e);
+            }
+        })
+        .then((api_token)=>{
+            return axios.get('/api/feed/', {
                 params: {
                     page: page
                 },
                 headers: {
                     'Authorization': api_token
                 }
-            }).then(function(response){
-                response.result = true;
-                resolve(response);
-            })
-            .catch(function(error){
-                reject(Api.ERR_API_SESSION_TIMEOUT);
             });
         });
     }
 }
+
