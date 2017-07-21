@@ -7,8 +7,10 @@
                 <router-link :to="{ name: 'userfeed', params: { id: item.id }}"> {{ item.name }} </router-link>
             </li>
         </ul>
-        <button v-on:click="get_users(-1)" v-show="page!=0">prev</button>
-        <button v-on:click="get_users(1)">next</button>
+        <div id="btn_field">
+            <button v-on:click="get_users(-1)" v-show="page!=0">prev</button>
+            <button v-on:click="get_users(1)">next</button>
+        </div>
     </div>
   </div>
 </template>
@@ -48,4 +50,24 @@ export default {
 </script>
 
 <style scoped>
+    ul{
+        list-style-type: none;
+    }
+    li{
+        border-style: dashed;
+        border-width: 0 0 1px 0;
+        padding: 13px;
+        border-color: lightgray;
+    }
+    li:last-child{
+        border-style: none;
+    }
+    button{
+        width: 50px;
+        height: 30px;
+        display: inline-block;
+    }
+    #btn_field{
+        text-align: center;
+    }
 </style>

@@ -1,32 +1,30 @@
 <template>
     <div id="micropost_feed_outer">
-        <ul>
-            <li v-for="item in microposts">
-                {{ item.content }}
-                {{ item.created_at }}
-            </li>
-        </ul>
-        <button v-on:click="get_feed(-1)" v-show="page!=0">prev</button>
-        <button v-on:click="get_feed(1)">next</button>
+        <feed-component @get_feed_event="get_feed" :feeds="microposts" :users="users" :page="page"></feed-component>
     </div>
 </template>
 
 <script>
 import Api from '../lib/micropost_api.js'
+import FeedComponent from './FeedComponent.vue'
 export default {
+    components: {
+        FeedComponent
+    },
     data: function(){
         return{
-            microposts: [{
-                content: "sample",
-                created_at: "sample1"
-            }],
+            microposts: [],
+            users: {},
             page: 0,
             user_id: this.$route.params.id
         }
     }
     ,
     created: function(){
-        Api.get_user_micropost(this.user_id, this.page, (e)=>{ this.microposts = e } );
+        Api.get_user_micropost(this.user_id, this.page, (e)=>{
+            this.users[String(this.user_id)] = {user_id: this.user_id, name: ""};
+            this.microposts = e;
+        } );
     },
     methods: {
         get_feed: function(increment_amount){
