@@ -21,15 +21,18 @@ export default {
     }
     ,
     created: function(){
-        Api.get_user_micropost(this.user_id, this.page, (e)=>{
-            this.users[String(this.user_id)] = {user_id: this.user_id, name: ""};
-            this.microposts = e;
-        } );
+        this.get_feed(0);
     },
     methods: {
         get_feed: function(increment_amount){
             if( this.page >= 0 ) this.page += increment_amount;
-            Api.get_user_micropost(this.user_id, this.page, (e)=>{ this.microposts = e } );
+            Api.getUserMicropost(this.user_id, this.page).then((e) => {
+                this.users[String(this.user_id)] = {user_id: this.user_id, name: ""};
+                this.microposts = e;
+            })
+            .catch( e => {
+                console.log(e);
+            });
         }
     }
 }

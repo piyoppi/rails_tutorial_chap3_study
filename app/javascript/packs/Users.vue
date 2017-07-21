@@ -31,43 +31,41 @@ export default {
     methods: {
         get_users: function(increment_amount){
             if( this.page >= 0 ) this.page += increment_amount;
-            try{
-                Api.get_users(this.page, (e)=>{ 
-                    if(e.result){
-                        this.users = e.data.users;
-                    }
-                    else{
-                        this.message = "Session was expired. Please log in.";
-                    }
-                });
-            }
-            catch (e){
-                this.message = Api.ERR_API_TOKEN_NOT_FOUND;
-            }
+            Api.getUsers(this.page).then(e=>{ 
+                if(e.result){
+                    this.users = e.data.users;
+                }
+                else{
+                    this.message = "Session was expired. Please log in.";
+                }
+            })
+            .catch (e=>{
+                this.message = e;
+            });
         }
     }
 }
 </script>
 
 <style scoped>
-    ul{
-        list-style-type: none;
-    }
-    li{
-        border-style: dashed;
-        border-width: 0 0 1px 0;
-        padding: 13px;
-        border-color: lightgray;
-    }
-    li:last-child{
-        border-style: none;
-    }
-    button{
-        width: 50px;
-        height: 30px;
-        display: inline-block;
-    }
-    #btn_field{
-        text-align: center;
-    }
+ul{
+    list-style-type: none;
+}
+li{
+    border-style: dashed;
+    border-width: 0 0 1px 0;
+    padding: 13px;
+    border-color: lightgray;
+}
+li:last-child{
+    border-style: none;
+}
+button{
+    width: 50px;
+    height: 30px;
+    display: inline-block;
+}
+#btn_field{
+    text-align: center;
+}
 </style>

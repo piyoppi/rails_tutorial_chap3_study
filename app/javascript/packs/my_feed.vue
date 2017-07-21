@@ -28,21 +28,19 @@ export default {
     methods: {
         get_feed: function(increment_amount){
             if( this.page >= 0 ) this.page += increment_amount;
-            try{
-                Api.get_own_feed(this.page, (e)=>{ 
-                    if(e.result){
-                        this.feeds = e.data.feed;
-                        this.users = {};
-                        e.data.users.forEach( user=>{ this.users[String(user.id)] = user; });
-                    }
-                    else{
-                        this.message = "Session was expired. Please log in.";
-                    }
-                });
-            }
-            catch (e){
-                this.message = Api.ERR_API_TOKEN_NOT_FOUND;
-            }
+            Api.getMyFeed(this.page).then( e=>{ 
+                if(e.result){
+                    this.feeds = e.data.feed;
+                    this.users = {};
+                    e.data.users.forEach( user=>{ this.users[String(user.id)] = user; });
+                }
+                else{
+                    this.message = "Session was expired. Please log in.";
+                }
+            })
+            .catch(e=>{
+                this.message = e;
+            });
         }
     }
 }
