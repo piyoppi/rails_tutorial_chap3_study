@@ -6,7 +6,7 @@
 
 <script>
 import Api from '../lib/micropost_api.js'
-import FeedComponent from './FeedComponent.vue'
+import FeedComponent from './feed_component.vue'
 export default {
     components: {
         FeedComponent
