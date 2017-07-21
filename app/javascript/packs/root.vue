@@ -1,9 +1,9 @@
 <template>
     <div id="root">
         <p>
-            <router-link class="menu" to="/m">My feed</router-link>
-            <router-link class="menu" to="/m/users">Users</router-link>
-            <router-link class="menu" to="/m/login">Login</router-link>
+            <router-link class="menu" :to="{name: 'myfeed'}">My feed</router-link>
+            <router-link class="menu" :to="{name: 'users'}">Users</router-link>
+            <router-link class="menu" :to="{name: 'login'}">Login</router-link>
         </p>
         <router-view></router-view>
     </div>
