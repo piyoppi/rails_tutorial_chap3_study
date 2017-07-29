@@ -26,7 +26,12 @@ export default {
     },
     methods: {
         request_auth: function(){
-            Api.login(this.email, this.password, e => { console.log(e.message); this.message = e.message });
+            Api.Login(this.email, this.password).then(e=>{
+                this.message = e.message
+            })
+            .catch(e=>{
+                this.message = e;
+            });
         }
     }
 }
