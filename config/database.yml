@@ -1,19 +1,23 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  database: rails_production
   pool: 5
-  username: rails_app
   host: localhost
 
 development:
   <<: *default
+  database: rails_development
+  username: rails_app
   password: rails_app
 
 test:
   <<: *default
+  database: rails_development
+  username: rails_app
   password: rails_app
 
 production:
   <<: *default
+  database: rails_production
+  username: <%= ENV["DB_USER_NAME"]>
   password: <%= ENV["DB_PASS"] %>
