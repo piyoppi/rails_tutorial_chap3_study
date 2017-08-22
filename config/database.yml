@@ -1,31 +1,19 @@
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
+  encoding: utf8
+  database: rails_production
   pool: 5
-  timeout: 5000
+  username: rails_app
+  host: localhost
 
 development:
-  adapter: mysql2
-  encoding: utf8
-  database: rails_production
-  pool: 5
-  username: rails_app
+  <<: *default
   password: rails_app
-  host: localhost
 
 test:
-  adapter: mysql2
-  encoding: utf8
-  database: rails_production
-  pool: 5
-  username: rails_app
+  <<: *default
   password: rails_app
-  host: localhost
 
 production:
-  adapter: mysql2
-  encoding: utf8
-  database: rails_production
-  pool: 5
-  username: rails_app
-  password: rails_app
-  host: localhost
+  <<: *default
+  password: <%= ENV["DB_PASS"] %>
