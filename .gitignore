@@ -44,3 +44,4 @@ tags
 /public/packs
 /public/packs-test
 /node_modules
+/vendor/bundle
