@@ -27,6 +27,6 @@ production:
   encoding: utf8
   database: rails_production
   pool: 5
-  username: sample_app
-  password: sample_app
+  username: rails_app
+  password: rails_app
   host: localhost
