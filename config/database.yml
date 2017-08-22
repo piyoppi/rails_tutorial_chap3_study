@@ -19,5 +19,5 @@ test:
 production:
   <<: *default
   database: rails_production
-  username: <%= ENV["DB_USER_NAME"]>
+  username: <%= ENV["DB_USER_NAME"] %>
   password: <%= ENV["DB_PASS"] %>
